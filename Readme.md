@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Елизавета Озерова](https://up.htmlacademy.ru/javascript/13/user/172908).
-* Наставник: `Неизвестно`.
+* Наставник: [Сергей Ufocoder](https://htmlacademy.ru/profile/id573445).
 
 ---
 
