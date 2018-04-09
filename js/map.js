@@ -1,7 +1,5 @@
 'use strict';
 
-// constants
-
 var CARD_AVATARS = [
   'img/avatars/user01.png',
   'img/avatars/user02.png',
@@ -36,7 +34,6 @@ var CARD_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http:/
 var PIN_SIZE = 40;
 var CARD_LIMIT = 8;
 
-// functions
 
 var generateRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
@@ -66,16 +63,16 @@ var getRandomArrElement = function (arr) {
   return arr[generateRandomInt(0, arr.length - 1)];
 };
 
-var createCardData = function (id) {
+var createCardData = function () {
   var x = generateRandomInt(300, 900);
   var y = generateRandomInt(150, 500);
 
   return {
     author: {
-      avatar: shuffledAvatars[id]
+      avatar: CARD_AVATARS[generateRandomInt(1, CARD_AVATARS.length)]
     },
     offer: {
-      title: shuffledTitles[id],
+      title: CARD_TITLES[generateRandomInt(1, CARD_TITLES.length)],
       address: x + ', ' + y,
       price: generateRandomInt(1000, 1000000),
       type: getRandomArrElement(CARD_TYPES),
@@ -95,32 +92,22 @@ var createCardData = function (id) {
   };
 };
 
-var createCardsData = function () {
-  var mapCardsData = [];
-  for (var i = 0; i < CARD_LIMIT; i++) {
-    mapCardsData.push(
-        createCardData(i)
-    );
-  }
+var createPinElement = function (cardData) {
+  var buttonElement = document.createElement('button');
+  var imageElement = document.createElement('img');
 
-  return mapCardsData;
-};
+  buttonElement.classList.add('map__pin');
+  buttonElement.style.left = cardData.location.x + PIN_SIZE / 2 + 'px';
+  buttonElement.style.top = cardData.location.y + PIN_SIZE + 'px';
 
-// Разметка меток на карте
-var createPin = function (adsData) {
-  var pinElement = document.createElement('button');
-  pinElement.classList.add('map__pin');
-  pinElement.style.left = adsData.location.x + PIN_SIZE / 2 + 'px';
-  pinElement.style.top = adsData.location.y + PIN_SIZE + 'px';
+  imageElement.src = cardData.author.avatar;
+  imageElement.alt = cardData.offer.title;
+  imageElement.style.width = PIN_SIZE + 'px';
+  imageElement.style.height = PIN_SIZE + 'px';
 
-  var image = document.createElement('img');
-  image.src = adsData.author.avatar;
-  image.alt = adsData.offer.title;
-  image.style.width = PIN_SIZE + 'px';
-  image.style.height = PIN_SIZE + 'px';
-  pinElement.appendChild(image);
+  buttonElement.appendChild(imageElement);
 
-  return pinElement;
+  return buttonElement;
 };
 
 var tranformOfferType = function (offerType) {
@@ -170,31 +157,30 @@ var renderCard = function (mapCard) {
 
 // main code
 
-var shuffledTitles = createRandomUniqueArr(CARD_TITLES, CARD_TITLES.length);
-var shuffledAvatars = createRandomUniqueArr(CARD_AVATARS, CARD_AVATARS.length);
-
 var i;
 var map = document.querySelector('.map');
 var mapPins = document.querySelector('.map__pins');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
-var fragment = document.createDocumentFragment();
 
-var mapCardsData = createCardsData();
+var fragment1 = document.createDocumentFragment();
+var fragment2 = document.createDocumentFragment();
 
-map.classList.remove('map--faded');
+var mapCardsData = [];
 
-for (i = 0; i < mapCardsData.length; i++) {
-  fragment.appendChild(
-      createPin(mapCardsData[i])
+for (i = 0; i < CARD_LIMIT; i++) {
+  mapCardsData.push(
+      createCardData(i)
+  );
+  fragment1.appendChild(
+      createPinElement(mapCardsData[i])
+  );
+  fragment2.appendChild(
+      renderCard(mapCardsData[i])
   );
 }
 
-mapPins.appendChild(fragment);
+mapPins.appendChild(fragment1);
 
-fragment = document.createDocumentFragment();
+map.classList.remove('map--faded');
 
-for (i = 0; i < mapCardsData.length; i++) {
-  fragment.appendChild(renderCard(mapCardsData[i]));
-}
-
-map.insertBefore(fragment, mapPins);
+map.insertBefore(fragment2, mapPins);
