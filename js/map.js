@@ -106,25 +106,14 @@ var createCardsData = function () {
   return mapCardsData;
 };
 
-// @TODO: remove
-var makeElement = function (tagName, className) {
-  var element = document.createElement(tagName);
-
-  if (className) {
-    element.classList.add(className);
-  }
-
-  return element;
-};
-
-
 // Разметка меток на карте
 var createPin = function (adsData) {
-  var pinElement = makeElement('button', 'map__pin');
+  var pinElement = document.createElement('button');
+  pinElement.classList.add('map__pin');
   pinElement.style.left = adsData.location.x + PIN_SIZE / 2 + 'px';
   pinElement.style.top = adsData.location.y + PIN_SIZE + 'px';
 
-  var image = makeElement('img');
+  var image = document.createElement('img');
   image.src = adsData.author.avatar;
   image.alt = adsData.offer.title;
   image.style.width = PIN_SIZE + 'px';
