@@ -2,7 +2,7 @@
 
 // constants
 
-var MAP_CARD_AVATARS = [
+var CARD_AVATARS = [
   'img/avatars/user01.png',
   'img/avatars/user02.png',
   'img/avatars/user03.png',
@@ -12,7 +12,7 @@ var MAP_CARD_AVATARS = [
   'img/avatars/user07.png',
   'img/avatars/user08.png'
 ];
-var MAP_CARD_TITLES = [
+var CARD_TITLES = [
   'Большая уютная квартира',
   'Маленькая неуютная квартира',
   'Огромный прекрасный дворец',
@@ -22,9 +22,9 @@ var MAP_CARD_TITLES = [
   'Уютное бунгало далеко от моря',
   'Неуютное бунгало по колено в воде'
 ];
-var MAP_CARD_TYPES = ['palace', 'flat', 'house', 'bungalo'];
-var MAP_CARD_CHECK_HOURS = ['12:00', '13:00', '14:00'];
-var MAP_CARD_FEATURES = [
+var CARD_TYPES = ['palace', 'flat', 'house', 'bungalo'];
+var CARD_CHECK_HOURS = ['12:00', '13:00', '14:00'];
+var CARD_FEATURES = [
   'wifi',
   'dishwasher',
   'parking',
@@ -32,9 +32,9 @@ var MAP_CARD_FEATURES = [
   'elevator',
   'conditioner'
 ];
-var MAP_CARD_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
+var CARD_PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var PIN_SIZE = 40;
-var MAP_CARD_LIMIT = 8;
+var CARD_LIMIT = 8;
 
 // functions
 
@@ -78,14 +78,14 @@ var createMapCardData = function (id) {
       title: shuffledTitles[id],
       address: x + ', ' + y,
       price: generateRandomInt(1000, 1000000),
-      type: getRandomArrElement(MAP_CARD_TYPES),
+      type: getRandomArrElement(CARD_TYPES),
       rooms: generateRandomInt(1, 5),
       guests: generateRandomInt(1, 6),
-      checkin: getRandomArrElement(MAP_CARD_CHECK_HOURS),
-      checkout: getRandomArrElement(MAP_CARD_CHECK_HOURS),
-      features: createRandomUniqueArr(MAP_CARD_FEATURES, generateRandomInt(1, MAP_CARD_FEATURES.length)),
+      checkin: getRandomArrElement(CARD_CHECK_HOURS),
+      checkout: getRandomArrElement(CARD_CHECK_HOURS),
+      features: createRandomUniqueArr(CARD_FEATURES, generateRandomInt(1, CARD_FEATURES.length)),
       description: '',
-      photos: createRandomUniqueArr(MAP_CARD_PHOTOS, MAP_CARD_PHOTOS.length)
+      photos: createRandomUniqueArr(CARD_PHOTOS, CARD_PHOTOS.length)
     },
 
     location: {
@@ -97,7 +97,7 @@ var createMapCardData = function (id) {
 
 var createMapCardsData = function () {
   var mapCardsData = [];
-  for (var i = 0; i < MAP_CARD_LIMIT; i++) {
+  for (var i = 0; i < CARD_LIMIT; i++) {
     mapCardsData.push(
         createMapCardData(i)
     );
@@ -181,8 +181,8 @@ var renderMapCard = function (mapCard) {
 
 // main code
 
-var shuffledTitles = createRandomUniqueArr(MAP_CARD_TITLES, MAP_CARD_TITLES.length);
-var shuffledAvatars = createRandomUniqueArr(MAP_CARD_AVATARS, MAP_CARD_AVATARS.length);
+var shuffledTitles = createRandomUniqueArr(CARD_TITLES, CARD_TITLES.length);
+var shuffledAvatars = createRandomUniqueArr(CARD_AVATARS, CARD_AVATARS.length);
 
 var i;
 var map = document.querySelector('.map');
