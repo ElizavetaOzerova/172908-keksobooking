@@ -66,7 +66,7 @@ var getRandomArrElement = function (arr) {
   return arr[generateRandomInt(0, arr.length - 1)];
 };
 
-var createMapCardData = function (id) {
+var createCardData = function (id) {
   var x = generateRandomInt(300, 900);
   var y = generateRandomInt(150, 500);
 
@@ -95,11 +95,11 @@ var createMapCardData = function (id) {
   };
 };
 
-var createMapCardsData = function () {
+var createCardsData = function () {
   var mapCardsData = [];
   for (var i = 0; i < CARD_LIMIT; i++) {
     mapCardsData.push(
-        createMapCardData(i)
+        createCardData(i)
     );
   }
 
@@ -149,7 +149,7 @@ var tranformOfferType = function (offerType) {
   return offerType;
 };
 
-var renderMapCard = function (mapCard) {
+var renderCard = function (mapCard) {
   var mapCardElement = mapCardTemplate.cloneNode(true);
   var offer = mapCard.offer;
 
@@ -190,7 +190,7 @@ var mapPins = document.querySelector('.map__pins');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
 var fragment = document.createDocumentFragment();
 
-var mapCardsData = createMapCardsData();
+var mapCardsData = createCardsData();
 
 map.classList.remove('map--faded');
 
@@ -205,7 +205,7 @@ mapPins.appendChild(fragment);
 fragment = document.createDocumentFragment();
 
 for (i = 0; i < mapCardsData.length; i++) {
-  fragment.appendChild(renderMapCard(mapCardsData[i]));
+  fragment.appendChild(renderCard(mapCardsData[i]));
 }
 
 map.insertBefore(fragment, mapPins);
