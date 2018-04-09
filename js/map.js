@@ -42,21 +42,6 @@ var generateRandomInt = function (min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 };
 
-
-// создать новый массив уникальных значений определенной длины
-
-// var createRandomUniqueArray = function (originalArr, size) {
-//   var arr = [];
-//   var counter = originalArr.length < size ? originalArr.length : size;
-
-  // создает копию originalArr
-  // в цикл, пока существует копия или пока счетчик не нуль
-  // выбираем элемет из копии помещаем в arr
-  // удаляем элемент из компии
-
-//   return arr;
-// };
-
 var createRandomUniqueArr = function (originalArr, size) {
   var copyArr = originalArr.slice();
   var counter = originalArr.length < size ? originalArr.length : size;
@@ -76,39 +61,6 @@ var createRandomUniqueArr = function (originalArr, size) {
   return resultArr;
 };
 
-
-// var randomComments = createRandomUniqueArray(comments, comments.length);
-// var randomCards = createRandomUniqueArray(cards, generateRandomInt(0, 3));
-//
-//
-// var generateRandomArr1 = function (originalArr) {
-//   return generateRandomArr__A(
-//       originalArr,
-//       generateRandomInt(1, originalArr.length)
-//   );
-// };
-//
-// var generateRandomArr2 = function (originalArr) {
-//   return generateRandomArr__A(
-//       originalArr,
-//       originalArr.length
-//   );
-// };
-//
-// var generateRandomArr__A = function (originalArr, size) {
-//   var newArr = [];
-//   var length = originalArr.length < size ? originalArr.length : size;
-//
-//   while (length--) {
-//     var newArrElement = originalArr[generateRandomInt(0, originalArr.length - 1)];
-//
-//     if (newArr.indexOf(newArrElement) === -1) {
-//       newArr.push(newArrElement);
-//     }
-//   }
-//
-//   return newArr;
-// };
 
 var getRandomArrElement = function (arr) {
   return arr[generateRandomInt(0, arr.length - 1)];
@@ -142,26 +94,6 @@ var createMapCardData = function (id) {
     }
   };
 };
-
-// var shuffleArrElements = function (arr) {
-//
-//   var shuffleArr = arr.slice();
-//
-//   var currentIndex = shuffleArr.length;
-//   var temporaryValue;
-//   var randomIndex;
-//
-//   while (currentIndex !== 0) {
-//     randomIndex = Math.floor(Math.random() * currentIndex);
-//     currentIndex -= 1;
-//
-//     temporaryValue = shuffleArr[currentIndex];
-//     shuffleArr[currentIndex] = shuffleArr[randomIndex];
-//     shuffleArr[randomIndex] = temporaryValue;
-//   }
-//
-//   return shuffleArr;
-// };
 
 var createMapCardsData = function () {
   var mapCardsData = [];
