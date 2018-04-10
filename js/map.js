@@ -138,14 +138,23 @@ var createCardElement = function (cardData, cardTemplate) {
 
   photosElement.innerHTML = '';
 
-  cardElement.querySelector('.popup__title').textContent = offer.title;
-  cardElement.querySelector('.popup__text--address').textContent = offer.address;
-  cardElement.querySelector('.popup__text--price ').textContent = offer.price + '₽/ночь';
-  cardElement.querySelector('.popup__type').textContent = tranformOfferType(offer.type);
-  cardElement.querySelector('.popup__text--capacity').textContent = offer.rooms + ' комнат(ы) для ' + offer.guests + ' гостей(я) ';
-  cardElement.querySelector('.popup__text--time').textContent = 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout;
-  cardElement.querySelector('.popup__features').textContent = offer.features.join(', ');
-  cardElement.querySelector('.popup__description').textContent = offer.description;
+  var textContentCard = {
+    '.popup__title': offer.title,
+    '.popup__text--address': offer.address,
+    '.popup__text--price ': offer.price + '₽/ночь',
+    '.popup__type': tranformOfferType(offer.type),
+    '.popup__text--capacity': offer.rooms + ' комнат(ы) для ' + offer.guests + ' гостей(я)',
+    '.popup__text--time': 'Заезд после ' + offer.checkin + ', выезд до ' + offer.checkout,
+    '.popup__features': offer.features.join(', '),
+    '.popup__description': offer.description
+  };
+
+  for (var selector in textContentCard) {
+    if (textContentCard.hasOwnProperty(selector)) {
+      cardElement.querySelector(selector).textContent = textContentCard[selector];
+    }
+  }
+
   cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
 
   for (var i = 0; i < offer.photos.length; i++) {
@@ -157,9 +166,7 @@ var createCardElement = function (cardData, cardTemplate) {
   return cardElement;
 };
 
-// main code
 
-var i;
 var mapElement = document.querySelector('.map');
 var pinsElement = document.querySelector('.map__pins');
 var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
@@ -170,7 +177,7 @@ var cardsFragment = document.createDocumentFragment();
 var cardsData = [];
 var cardData;
 
-for (i = 0; i < CARD_LIMIT; i++) {
+for (var i = 0; i < CARD_LIMIT; i++) {
   cardData = createCardData(i);
   cardsData.push(cardData);
   pinsFragment.appendChild(
