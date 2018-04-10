@@ -128,18 +128,28 @@ var tranformOfferType = function (offerType) {
   return offerType;
 };
 
+var createFeatureElement = function (featureData) {
+  var featureElement = document.createElement('li');
+  featureElement.classList.add('popup__feature', 'popup__feature--' + featureData);
+  featureElement.textContent = featureData;
+
+  return featureElement;
+};
+
+var createPhotoElement = function (photoData, photoTemplate) {
+  var photoElement = photoTemplate.cloneNode();
+  photoElement.src = photoData;
+
+  return photoElement;
+};
+
 var createCardElement = function (cardData, cardTemplate) {
   var offer = cardData.offer;
-
   var cardElement = cardTemplate.cloneNode(true);
-
-  var photoTemplate = cardElement.querySelector('.popup__photo').cloneNode(true);
   var photosElement = cardElement.querySelector('.popup__photos');
-  var photoElement;
-
+  var photosTemplate = cardElement.querySelector('.popup__photo').cloneNode(true);
   var featuresListElement = cardElement.querySelector('.popup__features');
-  var featuresArr = offer.features;
-  var featureElement;
+
 
   cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
 
@@ -162,20 +172,15 @@ var createCardElement = function (cardData, cardTemplate) {
 
   featuresListElement.innerHTML = '';
 
-  for (var i = 0; i < featuresArr.length; i++) {
-    featureElement = document.createElement('li');
-    featureElement.classList.add('popup__feature', 'popup__feature--' + featuresArr[i]);
-    featureElement.textContent = featuresArr[i];
-    featuresListElement.appendChild(featureElement);
+  for (var i = 0; i < offer.features.length; i++) {
+    featuresListElement.appendChild(createFeatureElement(offer.features[i]));
   }
 
 
   photosElement.innerHTML = '';
 
   for (i = 0; i < offer.photos.length; i++) {
-    photoElement = photoTemplate.cloneNode();
-    photoElement.src = offer.photos[i];
-    photosElement.appendChild(photoElement);
+    photosElement.appendChild(createPhotoElement(offer.photos[i], photosTemplate));
   }
 
 
