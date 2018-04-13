@@ -34,8 +34,12 @@ var CARD_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel2.jpg',
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
-var PIN_SIZE = 40;
 var CARD_LIMIT = 8;
+var PIN_SIZE = 40;
+var MAIN_PIN_SIZE = 65;
+var MAIN_PIN_LEG_SIZE = 22;
+var ESC_KEYCODE = 27;
+var ENTER_KEYCODE = 13;
 
 
 var generateRandomInt = function (min, max) {
@@ -75,7 +79,7 @@ var createCardData = function (index) {
       avatar: 'img/avatars/user0' + (index + 1) + '.png',
     },
     offer: {
-      title: CARD_TITLES[generateRandomInt(0, CARD_TITLES.length - 1)],
+      title: CARD_TITLES[index],
       address: x + ', ' + y,
       price: generateRandomInt(1000, 1000000),
       type: getRandomArrElement(CARD_TYPES),
@@ -95,20 +99,29 @@ var createCardData = function (index) {
   };
 };
 
-var createPinElement = function (cardData) {
+var createPinElement = function (data) {
   var buttonElement = document.createElement('button');
   var imageElement = document.createElement('img');
 
   buttonElement.classList.add('map__pin');
-  buttonElement.style.left = cardData.location.x + PIN_SIZE / 2 + 'px';
-  buttonElement.style.top = cardData.location.y + PIN_SIZE + 'px';
+  buttonElement.style.left = data.location.x + PIN_SIZE / 2 + 'px';
+  buttonElement.style.top = data.location.y + PIN_SIZE + 'px';
 
-  imageElement.src = cardData.author.avatar;
-  imageElement.alt = cardData.offer.title;
+  imageElement.src = data.author.avatar;
+  imageElement.alt = data.offer.title;
   imageElement.style.width = PIN_SIZE + 'px';
   imageElement.style.height = PIN_SIZE + 'px';
 
   buttonElement.appendChild(imageElement);
+  buttonElement.addEventListener('click', function () {
+    fillCardElement(data);
+  });
+
+  buttonElement.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      fillCardElement(data);
+    }
+  });
 
   return buttonElement;
 };
@@ -130,6 +143,7 @@ var tranformOfferType = function (offerType) {
 
 var createFeatureElement = function (featureData) {
   var featureElement = document.createElement('li');
+
   featureElement.classList.add('popup__feature', 'popup__feature--' + featureData);
   featureElement.textContent = featureData;
 
@@ -138,20 +152,39 @@ var createFeatureElement = function (featureData) {
 
 var createPhotoElement = function (photoData, photoTemplate) {
   var photoElement = photoTemplate.cloneNode();
+
   photoElement.src = photoData;
 
   return photoElement;
 };
 
-var createCardElement = function (cardData, cardTemplate) {
-  var offer = cardData.offer;
+var createCardElement = function (cardTemplate) {
   var cardElement = cardTemplate.cloneNode(true);
+  var btnClose = cardElement.querySelector('.popup__close');
+
+  cardElement.classList.add('hidden');
+
+  btnClose.addEventListener('click', function () {
+    cardElement.classList.add('hidden');
+  });
+
+  btnClose.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ENTER_KEYCODE) {
+      cardElement.classList.add('hidden');
+    }
+  });
+
+  return cardElement;
+};
+
+var fillCardElement = function (data) {
+  var offer = data.offer;
+
   var photosElement = cardElement.querySelector('.popup__photos');
   var photosTemplate = cardElement.querySelector('.popup__photo').cloneNode(true);
   var featuresListElement = cardElement.querySelector('.popup__features');
 
-
-  cardElement.querySelector('.popup__avatar').src = cardData.author.avatar;
+  cardElement.querySelector('.popup__avatar').src = data.author.avatar;
 
   var textContentCard = {
     '.popup__title': offer.title,
@@ -169,46 +202,70 @@ var createCardElement = function (cardData, cardTemplate) {
     }
   }
 
-
   featuresListElement.innerHTML = '';
-
   for (var i = 0; i < offer.features.length; i++) {
     featuresListElement.appendChild(createFeatureElement(offer.features[i]));
   }
 
-
   photosElement.innerHTML = '';
-
   for (i = 0; i < offer.photos.length; i++) {
     photosElement.appendChild(createPhotoElement(offer.photos[i], photosTemplate));
   }
 
-
-  return cardElement;
+  cardElement.classList.remove('hidden');
 };
 
+var activatePage = function () {
+  mapElement.classList.remove('map--faded');
+  adFormElement.classList.remove('ad-form--disabled');
+  pinsElement.appendChild(pinsFragment);
 
-var mapElement = document.querySelector('.map');
-var pinsElement = document.querySelector('.map__pins');
-var mapCardTemplate = document.querySelector('template').content.querySelector('.map__card');
+  for (i = 0; i < fieldsetElementList.length; i++) {
+    fieldsetElementList[i].disabled = false;
+  }
+
+  inputAddressElement.value = mainPinElementX + ', ' + (mainPinElementY + MAIN_PIN_LEG_SIZE);
+};
 
 var pinsFragment = document.createDocumentFragment();
-var cardsFragment = document.createDocumentFragment();
-
 var cardsData = [];
 var cardData;
 
 for (var i = 0; i < CARD_LIMIT; i++) {
   cardData = createCardData(i);
   cardsData.push(cardData);
+
   pinsFragment.appendChild(
       createPinElement(cardData)
   );
-  cardsFragment.appendChild(
-      createCardElement(cardData, mapCardTemplate)
-  );
 }
 
-pinsElement.appendChild(pinsFragment);
-mapElement.insertBefore(cardsFragment, pinsElement);
-mapElement.classList.remove('map--faded');
+var mapElement = document.querySelector('.map');
+var pinsElement = document.querySelector('.map__pins');
+var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
+
+var cardElement = createCardElement(cardTemplate);
+var fieldsetElementList = document.querySelectorAll('fieldset');
+var inputAddressElement = document.querySelector('#address');
+var adFormElement = document.querySelector('.ad-form');
+var mainPinElement = document.querySelector('.map__pin--main');
+var mainPinElementX = Math.floor(parseInt(mainPinElement.style.left, 10) + MAIN_PIN_SIZE / 2);
+var mainPinElementY = Math.floor(parseInt(mainPinElement.style.top, 10) + MAIN_PIN_SIZE / 2);
+
+for (i = 0; i < fieldsetElementList.length; i++) {
+  fieldsetElementList[i].disabled = true;
+}
+
+inputAddressElement.value = mainPinElementX + ', ' + mainPinElementY;
+
+mapElement.insertBefore(cardElement, pinsElement);
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    cardElement.classList.add('hidden');
+  }
+});
+
+mainPinElement.addEventListener('mouseup', function () {
+  activatePage();
+});
