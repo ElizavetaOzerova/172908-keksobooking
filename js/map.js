@@ -269,3 +269,62 @@ document.addEventListener('keydown', function (evt) {
 mainPinElement.addEventListener('mouseup', function () {
   activatePage();
 });
+
+
+// Валидация 2.3, 2.5, 2.6
+var accommodationType = document.querySelector('#type');
+var accommodationPrice = document.querySelector('#price');
+
+var accommodationTimeIn = document.querySelector('#timein');
+var accommodationTimeOut = document.querySelector('#timeout');
+
+var accommodationRoomNumber = document.querySelector('#room_number');
+var accommodationRoomCapacity = document.querySelector('#capacity');
+
+// Синхронизация полей «Тип жилья» и «Цена за ночь»
+accommodationType.addEventListener('change', function () {
+  switch (accommodationType.options[accommodationType.selectedIndex].value) {
+    case 'bungalo':
+      accommodationPrice.min = 0;
+      accommodationPrice.placeholder = '0';
+      break;
+    case 'flat':
+      accommodationPrice.min = 1000;
+      accommodationPrice.placeholder = '1000';
+      break;
+    case 'house':
+      accommodationPrice.min = 5000;
+      accommodationPrice.placeholder = '5000';
+      break;
+    case 'palace':
+      accommodationPrice.min = 10000;
+      accommodationPrice.placeholder = '10000';
+      break;
+  }
+});
+
+
+// Синхронизация полей «Время заезда» и «Время выезда»
+accommodationTimeIn.addEventListener('change', function () {
+  accommodationTimeOut.selectedIndex = accommodationTimeIn.selectedIndex;
+});
+accommodationTimeOut.addEventListener('change', function () {
+  accommodationTimeIn.selectedIndex = accommodationTimeOut.selectedIndex;
+});
+
+
+// Синхронизация полей «Количество комнат» и «Количество мест»
+var roomChangeHandler = function () {
+  var selectedRoomNumber = Number(accommodationRoomNumber.options[accommodationRoomNumber.selectedIndex].value);
+  var selectedRoomCapacity = Number(accommodationRoomCapacity.options[accommodationRoomCapacity.selectedIndex].value);
+
+  if (((selectedRoomNumber >= selectedRoomCapacity) && (selectedRoomCapacity !== 0 && selectedRoomNumber !== 0))
+  || (selectedRoomCapacity === 0 && selectedRoomNumber === 0)) {
+    accommodationRoomCapacity.setCustomValidity('');
+  } else {
+    accommodationRoomCapacity.setCustomValidity('Выбранное значение количества гостей не подходит под количество комнат');
+  }
+};
+
+accommodationRoomNumber.addEventListener('change', roomChangeHandler);
+accommodationRoomCapacity.addEventListener('change', roomChangeHandler);
