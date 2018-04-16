@@ -160,15 +160,15 @@ var createPhotoElement = function (photoData, photoTemplate) {
 
 var createCardElement = function (cardTemplate) {
   var cardItemElement = cardTemplate.cloneNode(true);
-  var btnClose = cardItemElement.querySelector('.popup__close');
+  var btnCloseItemElement = cardItemElement.querySelector('.popup__close');
 
   cardItemElement.classList.add('hidden');
 
-  btnClose.addEventListener('click', function () {
+  btnCloseItemElement.addEventListener('click', function () {
     cardItemElement.classList.add('hidden');
   });
 
-  btnClose.addEventListener('keydown', function (evt) {
+  btnCloseItemElement.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
       cardItemElement.classList.add('hidden');
     }
@@ -280,7 +280,7 @@ mainPinElement.addEventListener('mouseup', function () {
 
 
 typeField.addEventListener('change', function (evt) {
-  switch (evt.currentTarget.options[typeField.selectedIndex].value) {
+  switch (evt.currentTarget.value) {
     case 'bungalo':
       priceField.min = 0;
       priceField.placeholder = '0';
@@ -310,7 +310,7 @@ timeOutField.addEventListener('change', function () {
 
 
 var roomChangeHandler = function () {
-  var validationCapacityMap = {
+  var validationRoomToCapacityMap = {
     1: ['1'],
     2: ['2', '1'],
     3: ['3', '2', '1'],
@@ -320,7 +320,7 @@ var roomChangeHandler = function () {
   var selectedRoomNumber = roomNumberField.options[roomNumberField.selectedIndex].value;
   var selectedRoomCapacity = roomCapacityField.options[roomCapacityField.selectedIndex].value;
 
-  var isCapacityWrong = validationCapacityMap[selectedRoomNumber].indexOf(selectedRoomCapacity) === -1;
+  var isCapacityWrong = validationRoomToCapacityMap[selectedRoomNumber].indexOf(selectedRoomCapacity) === -1;
 
   if (isCapacityWrong) {
     roomCapacityField.setCustomValidity('Выбранное количество гостей не подходит под количество комнат');
