@@ -159,22 +159,22 @@ var createPhotoElement = function (photoData, photoTemplate) {
 };
 
 var createCardElement = function (cardTemplate) {
-  var cardElement = cardTemplate.cloneNode(true);
-  var btnClose = cardElement.querySelector('.popup__close');
+  var cardItemElement = cardTemplate.cloneNode(true);
+  var btnClose = cardItemElement.querySelector('.popup__close');
 
-  cardElement.classList.add('hidden');
+  cardItemElement.classList.add('hidden');
 
   btnClose.addEventListener('click', function () {
-    cardElement.classList.add('hidden');
+    cardItemElement.classList.add('hidden');
   });
 
   btnClose.addEventListener('keydown', function (evt) {
     if (evt.keyCode === ENTER_KEYCODE) {
-      cardElement.classList.add('hidden');
+      cardItemElement.classList.add('hidden');
     }
   });
 
-  return cardElement;
+  return cardItemElement;
 };
 
 var fillCardElement = function (data) {
@@ -279,9 +279,8 @@ mainPinElement.addEventListener('mouseup', function () {
 });
 
 
-// Синхронизация полей «Тип жилья» и «Цена за ночь»
-typeField.addEventListener('change', function () {
-  switch (typeField.options[typeField.selectedIndex].value) {
+typeField.addEventListener('change', function (evt) {
+  switch (evt.currentTarget.options[typeField.selectedIndex].value) {
     case 'bungalo':
       priceField.min = 0;
       priceField.placeholder = '0';
@@ -302,7 +301,6 @@ typeField.addEventListener('change', function () {
 });
 
 
-// Синхронизация полей «Время заезда» и «Время выезда»
 timeInField.addEventListener('change', function () {
   timeOutField.selectedIndex = timeInField.selectedIndex;
 });
@@ -311,16 +309,23 @@ timeOutField.addEventListener('change', function () {
 });
 
 
-// Синхронизация полей «Количество комнат» и «Количество мест»
 var roomChangeHandler = function () {
-  var selectedRoomNumber = Number(roomNumberField.options[roomNumberField.selectedIndex].value);
-  var selectedRoomCapacity = Number(roomCapacityField.options[roomCapacityField.selectedIndex].value);
+  var validationCapacityMap = {
+    1: ['1'],
+    2: ['2', '1'],
+    3: ['3', '2', '1'],
+    100: ['0']
+  };
 
-  if (((selectedRoomNumber >= selectedRoomCapacity) && (selectedRoomCapacity !== 0 && selectedRoomNumber !== 0))
-  || (selectedRoomCapacity === 0 && selectedRoomNumber === 0)) {
-    roomCapacityField.setCustomValidity('');
-  } else {
+  var selectedRoomNumber = roomNumberField.options[roomNumberField.selectedIndex].value;
+  var selectedRoomCapacity = roomCapacityField.options[roomCapacityField.selectedIndex].value;
+
+  var isCapacityWrong = validationCapacityMap[selectedRoomNumber].indexOf(selectedRoomCapacity) === -1;
+
+  if (isCapacityWrong) {
     roomCapacityField.setCustomValidity('Выбранное количество гостей не подходит под количество комнат');
+  } else {
+    roomCapacityField.setCustomValidity('');
   }
 };
 
