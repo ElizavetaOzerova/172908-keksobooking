@@ -252,6 +252,14 @@ var mainPinElement = document.querySelector('.map__pin--main');
 var mainPinElementX = Math.floor(parseInt(mainPinElement.style.left, 10) + MAIN_PIN_SIZE / 2);
 var mainPinElementY = Math.floor(parseInt(mainPinElement.style.top, 10) + MAIN_PIN_SIZE / 2);
 
+var typeField = document.querySelector('#type');
+var priceField = document.querySelector('#price');
+var timeInField = document.querySelector('#timein');
+var timeOutField = document.querySelector('#timeout');
+var roomNumberField = document.querySelector('#room_number');
+var roomCapacityField = document.querySelector('#capacity');
+
+
 for (i = 0; i < fieldsetElementList.length; i++) {
   fieldsetElementList[i].disabled = true;
 }
@@ -271,61 +279,50 @@ mainPinElement.addEventListener('mouseup', function () {
 });
 
 
-// Валидация
-var accommodationTypeField = document.querySelector('#type');
-var accommodationPriceField = document.querySelector('#price');
-
-var accommodationTimeInField = document.querySelector('#timein');
-var accommodationTimeOutField = document.querySelector('#timeout');
-
-var accommodationRoomNumberField = document.querySelector('#room_number');
-var accommodationRoomCapacityField = document.querySelector('#capacity');
-
-
 // Синхронизация полей «Тип жилья» и «Цена за ночь»
-accommodationTypeField.addEventListener('change', function () {
-  switch (accommodationTypeField.options[accommodationTypeField.selectedIndex].value) {
+typeField.addEventListener('change', function () {
+  switch (typeField.options[typeField.selectedIndex].value) {
     case 'bungalo':
-      accommodationPriceField.min = 0;
-      accommodationPriceField.placeholder = '0';
+      priceField.min = 0;
+      priceField.placeholder = '0';
       break;
     case 'flat':
-      accommodationPriceField.min = 1000;
-      accommodationPriceField.placeholder = '1000';
+      priceField.min = 1000;
+      priceField.placeholder = '1000';
       break;
     case 'house':
-      accommodationPriceField.min = 5000;
-      accommodationPriceField.placeholder = '5000';
+      priceField.min = 5000;
+      priceField.placeholder = '5000';
       break;
     case 'palace':
-      accommodationPriceField.min = 10000;
-      accommodationPriceField.placeholder = '10000';
+      priceField.min = 10000;
+      priceField.placeholder = '10000';
       break;
   }
 });
 
 
 // Синхронизация полей «Время заезда» и «Время выезда»
-accommodationTimeInField.addEventListener('change', function () {
-  accommodationTimeOutField.selectedIndex = accommodationTimeInField.selectedIndex;
+timeInField.addEventListener('change', function () {
+  timeOutField.selectedIndex = timeInField.selectedIndex;
 });
-accommodationTimeOutField.addEventListener('change', function () {
-  accommodationTimeInField.selectedIndex = accommodationTimeOutField.selectedIndex;
+timeOutField.addEventListener('change', function () {
+  timeInField.selectedIndex = timeOutField.selectedIndex;
 });
 
 
 // Синхронизация полей «Количество комнат» и «Количество мест»
 var roomChangeHandler = function () {
-  var selectedRoomNumber = Number(accommodationRoomNumberField.options[accommodationRoomNumberField.selectedIndex].value);
-  var selectedRoomCapacity = Number(accommodationRoomCapacityField.options[accommodationRoomCapacityField.selectedIndex].value);
+  var selectedRoomNumber = Number(roomNumberField.options[roomNumberField.selectedIndex].value);
+  var selectedRoomCapacity = Number(roomCapacityField.options[roomCapacityField.selectedIndex].value);
 
   if (((selectedRoomNumber >= selectedRoomCapacity) && (selectedRoomCapacity !== 0 && selectedRoomNumber !== 0))
   || (selectedRoomCapacity === 0 && selectedRoomNumber === 0)) {
-    accommodationRoomCapacityField.setCustomValidity('');
+    roomCapacityField.setCustomValidity('');
   } else {
-    accommodationRoomCapacityField.setCustomValidity('Выбранное количество гостей не подходит под количество комнат');
+    roomCapacityField.setCustomValidity('Выбранное количество гостей не подходит под количество комнат');
   }
 };
 
-accommodationRoomNumberField.addEventListener('change', roomChangeHandler);
-accommodationRoomCapacityField.addEventListener('change', roomChangeHandler);
+roomNumberField.addEventListener('change', roomChangeHandler);
+roomCapacityField.addEventListener('change', roomChangeHandler);
