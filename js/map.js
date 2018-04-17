@@ -331,7 +331,6 @@ roomNumberField.addEventListener('change', roomChangeHandler);
 roomCapacityField.addEventListener('change', roomChangeHandler);
 
 
-// Drag n Drop
 mainPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
@@ -358,22 +357,16 @@ mainPinElement.addEventListener('mousedown', function (evt) {
       left: mainPinElement.offsetLeft - shift.x
     };
 
-    // если вылезает за верхнюю границу
+
     if (finishCoords.top < 0) {
       finishCoords.top = 0;
     }
-
-    // если вылезает за левую границу
     if (finishCoords.left < 0) {
       finishCoords.left = 0;
     }
-
-    // если вылезает за правую границу
     if (finishCoords.left + MAIN_PIN_SIZE > pinsContainerElement.clientWidth) {
       finishCoords.left = pinsContainerElement.clientWidth - MAIN_PIN_SIZE;
     }
-
-    // если вылезает за нижнюю границу
     if (finishCoords.top + MAIN_PIN_SIZE > pinsContainerElement.clientHeight) {
       finishCoords.top = pinsContainerElement.clientHeight - MAIN_PIN_SIZE;
     }
