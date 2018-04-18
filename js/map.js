@@ -217,7 +217,7 @@ var fillCardElement = function (data) {
   cardElement.classList.remove('hidden');
 };
 
-var activatePage = function () {
+var mouseDownActivatePageHandler = function () {
   mapElement.classList.remove('map--faded');
   adFormElement.classList.remove('ad-form--disabled');
   pinsContainerElement.appendChild(pinsFragment);
@@ -276,7 +276,7 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
-document.addEventListener('mouseup', activatePage);
+document.addEventListener('mouseup', mouseDownActivatePageHandler);
 
 
 typeField.addEventListener('change', function (evt) {
