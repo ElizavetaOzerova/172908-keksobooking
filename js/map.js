@@ -336,8 +336,6 @@ roomCapacityField.addEventListener('change', roomChangeHandler);
 mainPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
 
-  mainPinElement.style.zIndex = '10';
-
   var startCoords = {
     x: evt.clientX,
     y: evt.clientY
