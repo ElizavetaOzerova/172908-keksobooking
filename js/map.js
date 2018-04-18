@@ -369,8 +369,8 @@ mainPinElement.addEventListener('mousedown', function (evt) {
     if (finishCoords.left + MAIN_PIN_SIZE > pinsContainerElement.clientWidth) {
       finishCoords.left = pinsContainerElement.clientWidth - MAIN_PIN_SIZE;
     }
-    if (finishCoords.top + MAIN_PIN_SIZE > pinsContainerElement.clientHeight) {
-      finishCoords.top = pinsContainerElement.clientHeight - MAIN_PIN_SIZE;
+    if (finishCoords.top + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE > pinsContainerElement.clientHeight) {
+      finishCoords.top = pinsContainerElement.clientHeight - MAIN_PIN_SIZE - MAIN_PIN_LEG_SIZE;
     }
 
     mainPinElement.style.top = finishCoords.top + 'px';
