@@ -276,6 +276,8 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
+document.addEventListener('mouseup', activatePage);
+
 
 typeField.addEventListener('change', function (evt) {
   switch (evt.currentTarget.value) {
@@ -382,7 +384,5 @@ mainPinElement.addEventListener('mousedown', function (evt) {
   };
 
   document.addEventListener('mousemove', mouseMoveHandler);
-
   document.addEventListener('mouseup', mouseUpHandler);
-  document.addEventListener('mouseup', activatePage);
 });
