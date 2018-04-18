@@ -35,9 +35,11 @@ var CARD_PHOTOS = [
   'http://o0.github.io/assets/images/tokyo/hotel3.jpg'
 ];
 var CARD_LIMIT = 8;
+
 var PIN_SIZE = 40;
-var MAIN_PIN_SIZE = 65;
+var MAIN_PIN_SIZE = 62;
 var MAIN_PIN_LEG_SIZE = 22;
+
 var ESC_KEYCODE = 27;
 var ENTER_KEYCODE = 13;
 
@@ -215,16 +217,16 @@ var fillCardElement = function (data) {
   cardElement.classList.remove('hidden');
 };
 
-var activatePage = function () {
+var mouseDownActivatePageHandler = function () {
   mapElement.classList.remove('map--faded');
   adFormElement.classList.remove('ad-form--disabled');
-  pinsElement.appendChild(pinsFragment);
+  pinsContainerElement.appendChild(pinsFragment);
 
   for (i = 0; i < fieldsetElementList.length; i++) {
     fieldsetElementList[i].disabled = false;
   }
 
-  inputAddressElement.value = mainPinElementX + ', ' + (mainPinElementY + MAIN_PIN_LEG_SIZE);
+  inputAddressElement.value = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2) + ', ' + (mainPinElement.offsetLeft + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE);
 };
 
 var pinsFragment = document.createDocumentFragment();
@@ -241,7 +243,7 @@ for (var i = 0; i < CARD_LIMIT; i++) {
 }
 
 var mapElement = document.querySelector('.map');
-var pinsElement = document.querySelector('.map__pins');
+var pinsContainerElement = document.querySelector('.map__pins');
 var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
 
 var cardElement = createCardElement(cardTemplate);
@@ -249,8 +251,8 @@ var fieldsetElementList = document.querySelectorAll('fieldset');
 var inputAddressElement = document.querySelector('#address');
 var adFormElement = document.querySelector('.ad-form');
 var mainPinElement = document.querySelector('.map__pin--main');
-var mainPinElementX = Math.floor(parseInt(mainPinElement.style.left, 10) + MAIN_PIN_SIZE / 2);
-var mainPinElementY = Math.floor(parseInt(mainPinElement.style.top, 10) + MAIN_PIN_SIZE / 2);
+var mainPinElementX = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2);
+var mainPinElementY = Math.floor(mainPinElement.offsetTop + MAIN_PIN_SIZE / 2);
 
 var typeField = document.querySelector('#type');
 var priceField = document.querySelector('#price');
@@ -266,7 +268,7 @@ for (i = 0; i < fieldsetElementList.length; i++) {
 
 inputAddressElement.value = mainPinElementX + ', ' + mainPinElementY;
 
-mapElement.insertBefore(cardElement, pinsElement);
+mapElement.insertBefore(cardElement, pinsContainerElement);
 
 document.addEventListener('keydown', function (evt) {
   if (evt.keyCode === ESC_KEYCODE) {
@@ -274,9 +276,7 @@ document.addEventListener('keydown', function (evt) {
   }
 });
 
-mainPinElement.addEventListener('mouseup', function () {
-  activatePage();
-});
+document.addEventListener('mouseup', mouseDownActivatePageHandler);
 
 
 typeField.addEventListener('change', function (evt) {
@@ -331,3 +331,58 @@ var roomChangeHandler = function () {
 
 roomNumberField.addEventListener('change', roomChangeHandler);
 roomCapacityField.addEventListener('change', roomChangeHandler);
+
+
+mainPinElement.addEventListener('mousedown', function (evt) {
+  evt.preventDefault();
+
+  var startCoords = {
+    x: evt.clientX,
+    y: evt.clientY
+  };
+
+  var mouseMoveHandler = function (moveEvt) {
+    moveEvt.preventDefault();
+
+    var shift = {
+      x: startCoords.x - moveEvt.clientX,
+      y: startCoords.y - moveEvt.clientY
+    };
+
+    startCoords = {
+      x: moveEvt.clientX,
+      y: moveEvt.clientY
+    };
+
+    var finishCoords = {
+      top: mainPinElement.offsetTop - shift.y,
+      left: mainPinElement.offsetLeft - shift.x
+    };
+
+
+    if (finishCoords.top < 0) {
+      finishCoords.top = 0;
+    }
+    if (finishCoords.left < 0) {
+      finishCoords.left = 0;
+    }
+    if (finishCoords.left + MAIN_PIN_SIZE > pinsContainerElement.clientWidth) {
+      finishCoords.left = pinsContainerElement.clientWidth - MAIN_PIN_SIZE;
+    }
+    if (finishCoords.top + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE > pinsContainerElement.clientHeight) {
+      finishCoords.top = pinsContainerElement.clientHeight - MAIN_PIN_SIZE - MAIN_PIN_LEG_SIZE;
+    }
+
+    mainPinElement.style.top = finishCoords.top + 'px';
+    mainPinElement.style.left = finishCoords.left + 'px';
+  };
+
+
+  var mouseUpHandler = function () {
+    document.removeEventListener('mousemove', mouseMoveHandler);
+    document.removeEventListener('mouseup', mouseUpHandler);
+  };
+
+  document.addEventListener('mousemove', mouseMoveHandler);
+  document.addEventListener('mouseup', mouseUpHandler);
+});

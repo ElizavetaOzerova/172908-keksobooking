@@ -222,6 +222,8 @@ fieldset {
 }
 
 .map__pin--main {
+  z-index: 10;
+
   width: 65px;
   height: 65px;
 
