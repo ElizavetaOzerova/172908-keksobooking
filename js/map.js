@@ -37,7 +37,7 @@ var CARD_PHOTOS = [
 var CARD_LIMIT = 8;
 
 var PIN_SIZE = 40;
-var MAIN_PIN_SIZE = 65;
+var MAIN_PIN_SIZE = 62;
 var MAIN_PIN_LEG_SIZE = 22;
 
 var ESC_KEYCODE = 27;
@@ -335,6 +335,8 @@ roomCapacityField.addEventListener('change', roomChangeHandler);
 
 mainPinElement.addEventListener('mousedown', function (evt) {
   evt.preventDefault();
+
+  mainPinElement.style.zIndex = '10';
 
   var startCoords = {
     x: evt.clientX,
