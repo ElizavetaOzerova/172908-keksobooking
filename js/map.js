@@ -270,14 +270,6 @@ inputAddressElement.value = mainPinElementX + ', ' + mainPinElementY;
 
 mapElement.insertBefore(cardElement, pinsContainerElement);
 
-document.addEventListener('keydown', function (evt) {
-  if (evt.keyCode === ESC_KEYCODE) {
-    cardElement.classList.add('hidden');
-  }
-});
-
-document.addEventListener('mouseup', mouseDownActivatePageHandler);
-
 
 typeField.addEventListener('change', function (evt) {
   switch (evt.currentTarget.value) {
@@ -301,14 +293,6 @@ typeField.addEventListener('change', function (evt) {
 });
 
 
-timeInField.addEventListener('change', function () {
-  timeOutField.selectedIndex = timeInField.selectedIndex;
-});
-timeOutField.addEventListener('change', function () {
-  timeInField.selectedIndex = timeOutField.selectedIndex;
-});
-
-
 var roomChangeHandler = function () {
   var validationRoomToCapacityMap = {
     1: ['1'],
@@ -328,9 +312,6 @@ var roomChangeHandler = function () {
     roomCapacityField.setCustomValidity('');
   }
 };
-
-roomNumberField.addEventListener('change', roomChangeHandler);
-roomCapacityField.addEventListener('change', roomChangeHandler);
 
 
 mainPinElement.addEventListener('mousedown', function (evt) {
@@ -386,3 +367,22 @@ mainPinElement.addEventListener('mousedown', function (evt) {
   document.addEventListener('mousemove', mouseMoveHandler);
   document.addEventListener('mouseup', mouseUpHandler);
 });
+
+
+document.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === ESC_KEYCODE) {
+    cardElement.classList.add('hidden');
+  }
+});
+
+document.addEventListener('mouseup', mouseDownActivatePageHandler);
+
+timeInField.addEventListener('change', function () {
+  timeOutField.selectedIndex = timeInField.selectedIndex;
+});
+timeOutField.addEventListener('change', function () {
+  timeInField.selectedIndex = timeOutField.selectedIndex;
+});
+
+roomNumberField.addEventListener('change', roomChangeHandler);
+roomCapacityField.addEventListener('change', roomChangeHandler);
