@@ -1,6 +1,9 @@
 'use strict';
 
 (function () {
+  var ESC_KEYCODE = 27;
+  var ENTER_KEYCODE = 13;
+
   var tranformOfferType = function (offerType) {
     switch (offerType) {
       case 'palace':
@@ -44,10 +47,14 @@
     hideCardItemElement();
 
     document.addEventListener('keydown', function (evt) {
-      window.util.isEscEvent(evt, hideCardItemElement);
+      if (evt.keyCode === ESC_KEYCODE) {
+        hideCardItemElement();
+      }
     });
     btnCloseItemElement.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, hideCardItemElement);
+      if (evt.keyCode === ENTER_KEYCODE) {
+        hideCardItemElement();
+      }
     });
 
     btnCloseItemElement.addEventListener('click', hideCardItemElement);

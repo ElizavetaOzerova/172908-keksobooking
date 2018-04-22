@@ -2,6 +2,7 @@
 
 (function () {
   var PIN_SIZE = 40;
+  var ENTER_KEYCODE = 13;
 
   window.createPinElement = function (data) {
     var buttonElement = document.createElement('button');
@@ -25,7 +26,9 @@
     buttonElement.addEventListener('click', fillCard);
 
     buttonElement.addEventListener('keydown', function (evt) {
-      window.util.isEnterEvent(evt, fillCard);
+      if (evt.keyCode === ENTER_KEYCODE) {
+        fillCard();
+      }
     });
 
     return buttonElement;
