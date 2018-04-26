@@ -1,12 +1,15 @@
 'use strict';
 
 (function () {
+  var adFormElement = document.querySelector('.ad-form');
   var typeField = document.querySelector('#type');
   var priceField = document.querySelector('#price');
   var timeInField = document.querySelector('#timein');
   var timeOutField = document.querySelector('#timeout');
   var roomNumberField = document.querySelector('#room_number');
   var roomCapacityField = document.querySelector('#capacity');
+  var successElement = document.querySelector('.success');
+
 
   typeField.addEventListener('change', function (evt) {
     switch (evt.currentTarget.value) {
@@ -59,4 +62,39 @@
 
   roomNumberField.addEventListener('change', roomChangeHandler);
   roomCapacityField.addEventListener('change', roomChangeHandler);
+
+
+  var successSendFormDataHandler = function () {
+    successElement.classList.remove('hidden');
+
+    setTimeout(function () {
+      successElement.classList.add('hidden');
+    }, 3000);
+
+    adFormElement.reset();
+    window.inactivatePageHandler();
+  };
+
+  var errorSendFormDataHandler = function (errorMessage) {
+    var errorDataElement = document.createElement('div');
+    errorDataElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: rgba(255, 164, 0, 0.8); color" #000000;';
+    errorDataElement.style.position = 'fixed';
+    errorDataElement.style.left = 0;
+    errorDataElement.style.right = 0;
+    errorDataElement.style.fontSize = '30px';
+
+    errorDataElement.textContent = errorMessage;
+    document.body.insertAdjacentElement('afterbegin', errorDataElement);
+
+    setTimeout(function () {
+      errorDataElement.classList.add('hidden');
+    }, 6000);
+  };
+
+
+  adFormElement.addEventListener('submit', function (evt) {
+    window.backend.sendFormData(new FormData(adFormElement), successSendFormDataHandler, errorSendFormDataHandler);
+
+    evt.preventDefault();
+  });
 })();
