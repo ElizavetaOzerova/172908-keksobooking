@@ -4,39 +4,70 @@
   var MAIN_PIN_SIZE = 62;
   var MAIN_PIN_LEG_SIZE = 22;
 
-  var pinsFragment = document.createDocumentFragment();
-  var cardsData = window.generateCardsData();
-
   var mapElement = document.querySelector('.map');
   var pinsContainerElement = document.querySelector('.map__pins');
   var fieldsetElementList = document.querySelectorAll('fieldset');
   var inputAddressElement = document.querySelector('#address');
-  var adFormElement = document.querySelector('.ad-form');
+  var formElement = document.querySelector('.ad-form');
   var mainPinElement = document.querySelector('.map__pin--main');
   var mainPinElementX = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2);
   var mainPinElementY = Math.floor(mainPinElement.offsetTop + MAIN_PIN_SIZE / 2);
 
 
-  var mouseDownActivatePageHandler = function () {
-    mapElement.classList.remove('map--faded');
-    adFormElement.classList.remove('ad-form--disabled');
+  var successGetDataHandler = function (data) {
+    var pinsFragment = document.createDocumentFragment();
+
+    for (var i = 0; i < data.length; i++) {
+      pinsFragment.appendChild(
+          window.createPinElement(data[i])
+      );
+    }
+
     pinsContainerElement.appendChild(pinsFragment);
+  };
+
+
+  var mouseDownActivatePageHandler = function () {
+    window.backend.loadCardsData(successGetDataHandler, window.errorMessage.show);
+
+    mapElement.classList.remove('map--faded');
+    formElement.classList.remove('ad-form--disabled');
 
     for (i = 0; i < fieldsetElementList.length; i++) {
       fieldsetElementList[i].disabled = false;
     }
 
-    inputAddressElement.value = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2) + ', ' + (mainPinElement.offsetLeft + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE);
+    inputAddressElement.value = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2) + ', ' + (mainPinElement.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE);
   };
 
-  for (var i = 0; i < cardsData.length; i++) {
-    pinsFragment.appendChild(
-        window.createPinElement(cardsData[i])
-    );
-  }
+
+  window.inactivatePageHandler = function () {
+    mapElement.classList.add('map--faded');
+    formElement.classList.add('ad-form--disabled');
+
+    mainPinElement.style.top = (mapElement.offsetHeight / 2) + 'px';
+    mainPinElement.style.left = (mapElement.offsetWidth / 2 - MAIN_PIN_SIZE / 2) + 'px';
+
+    var pinsList = pinsContainerElement.querySelectorAll('.map__pin');
+    pinsList.forEach(function (item) {
+      if (!item.classList.contains('map__pin--main')) {
+        item.remove();
+      }
+    });
+
+    if (window.cardElement) {
+      window.cardElement.classList.add('hidden');
+    }
+
+    for (i = 0; i < fieldsetElementList.length; i++) {
+      fieldsetElementList[i].disabled = true;
+    }
+
+    inputAddressElement.value = mainPinElementX + ', ' + mainPinElementY;
+  };
 
 
-  for (i = 0; i < fieldsetElementList.length; i++) {
+  for (var i = 0; i < fieldsetElementList.length; i++) {
     fieldsetElementList[i].disabled = true;
   }
 
@@ -97,8 +128,8 @@
 
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
+
+    mainPinElement.addEventListener('mouseup', mouseDownActivatePageHandler);
   });
 
-
-  document.addEventListener('mouseup', mouseDownActivatePageHandler);
 })();

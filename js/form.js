@@ -1,12 +1,16 @@
 'use strict';
 
 (function () {
+  var formElement = document.querySelector('.ad-form');
   var typeField = document.querySelector('#type');
   var priceField = document.querySelector('#price');
   var timeInField = document.querySelector('#timein');
   var timeOutField = document.querySelector('#timeout');
   var roomNumberField = document.querySelector('#room_number');
   var roomCapacityField = document.querySelector('#capacity');
+  var successElement = document.querySelector('.success');
+  var formResetBtn = document.querySelector('.ad-form__reset');
+
 
   typeField.addEventListener('change', function (evt) {
     switch (evt.currentTarget.value) {
@@ -59,4 +63,29 @@
 
   roomNumberField.addEventListener('change', roomChangeHandler);
   roomCapacityField.addEventListener('change', roomChangeHandler);
+
+
+  var successSendFormDataHandler = function () {
+    successElement.classList.remove('hidden');
+
+    setTimeout(function () {
+      successElement.classList.add('hidden');
+    }, 3000);
+
+    formElement.reset();
+    window.inactivatePageHandler();
+  };
+
+
+  formResetBtn.addEventListener('click', function () {
+    formElement.reset();
+    window.inactivatePageHandler();
+  });
+
+
+  formElement.addEventListener('submit', function (evt) {
+    window.backend.sendFormData(new FormData(formElement), successSendFormDataHandler, window.errorMessage.show);
+
+    evt.preventDefault();
+  });
 })();
