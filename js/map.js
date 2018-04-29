@@ -4,7 +4,6 @@
   var MAIN_PIN_SIZE = 62;
   var MAIN_PIN_LEG_SIZE = 22;
 
-  var pinsFragment = document.createDocumentFragment();
   var mapElement = document.querySelector('.map');
   var pinsContainerElement = document.querySelector('.map__pins');
   var fieldsetElementList = document.querySelectorAll('fieldset');
@@ -16,6 +15,8 @@
 
 
   var successGetDataHandler = function (data) {
+    var pinsFragment = document.createDocumentFragment();
+
     for (var i = 0; i < data.length; i++) {
       pinsFragment.appendChild(
           window.createPinElement(data[i])

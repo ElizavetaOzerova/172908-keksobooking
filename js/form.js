@@ -9,6 +9,7 @@
   var roomNumberField = document.querySelector('#room_number');
   var roomCapacityField = document.querySelector('#capacity');
   var successElement = document.querySelector('.success');
+  var formResetBtn = document.querySelector('.ad-form__reset');
 
 
   typeField.addEventListener('change', function (evt) {
@@ -90,6 +91,12 @@
       errorDataElement.classList.add('hidden');
     }, 6000);
   };
+
+
+  formResetBtn.addEventListener('click', function () {
+    adFormElement.reset();
+    window.inactivatePageHandler();
+  });
 
 
   adFormElement.addEventListener('submit', function (evt) {
