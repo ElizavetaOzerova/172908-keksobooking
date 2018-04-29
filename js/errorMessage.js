@@ -1,8 +1,8 @@
 'use strict';
 
-window.show = (function () {
+window.errorMessage = (function () {
   return {
-    errorDataHandler: function (errorMessage) {
+    show: function (errorMessage) {
       var errorDataElement = document.createElement('div');
       errorDataElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: rgba(255, 0, 0, 0.8); color: #000000;';
       errorDataElement.style.position = 'fixed';

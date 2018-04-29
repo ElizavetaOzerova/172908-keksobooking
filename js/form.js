@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var adFormElement = document.querySelector('.ad-form');
+  var formElement = document.querySelector('.ad-form');
   var typeField = document.querySelector('#type');
   var priceField = document.querySelector('#price');
   var timeInField = document.querySelector('#timein');
@@ -72,23 +72,19 @@
       successElement.classList.add('hidden');
     }, 3000);
 
-    adFormElement.reset();
+    formElement.reset();
     window.inactivatePageHandler();
-  };
-
-  var errorSendFormDataHandler = function (errorMessage) {
-    window.show.errorDataHandler(errorMessage);
   };
 
 
   formResetBtn.addEventListener('click', function () {
-    adFormElement.reset();
+    formElement.reset();
     window.inactivatePageHandler();
   });
 
 
-  adFormElement.addEventListener('submit', function (evt) {
-    window.backend.sendFormData(new FormData(adFormElement), successSendFormDataHandler, errorSendFormDataHandler);
+  formElement.addEventListener('submit', function (evt) {
+    window.backend.sendFormData(new FormData(formElement), successSendFormDataHandler, window.errorMessage.show);
 
     evt.preventDefault();
   });

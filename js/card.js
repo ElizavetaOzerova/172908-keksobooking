@@ -93,18 +93,13 @@
 
 
     featuresListElement.innerHTML = '';
-    if (offer.features.length) {
-      for (var i = 0; i < offer.features.length; i++) {
-        featuresListElement.appendChild(createFeatureElement(offer.features[i]));
-      }
+    for (var i = 0; i < offer.features.length; i++) {
+      featuresListElement.appendChild(createFeatureElement(offer.features[i]));
     }
 
-
     photosElement.innerHTML = '';
-    if (offer.photos.length) {
-      for (i = 0; i < offer.photos.length; i++) {
-        photosElement.appendChild(createPhotoElement(offer.photos[i]));
-      }
+    for (i = 0; i < offer.photos.length; i++) {
+      photosElement.appendChild(createPhotoElement(offer.photos[i]));
     }
 
     window.cardElement.classList.remove('hidden');

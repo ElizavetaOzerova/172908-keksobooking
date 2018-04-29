@@ -8,7 +8,7 @@
   var pinsContainerElement = document.querySelector('.map__pins');
   var fieldsetElementList = document.querySelectorAll('fieldset');
   var inputAddressElement = document.querySelector('#address');
-  var adFormElement = document.querySelector('.ad-form');
+  var formElement = document.querySelector('.ad-form');
   var mainPinElement = document.querySelector('.map__pin--main');
   var mainPinElementX = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2);
   var mainPinElementY = Math.floor(mainPinElement.offsetTop + MAIN_PIN_SIZE / 2);
@@ -26,16 +26,12 @@
     pinsContainerElement.appendChild(pinsFragment);
   };
 
-  var errorGetDataHandler = function (errorMessage) {
-    window.show.errorDataHandler(errorMessage);
-  };
-
 
   var mouseDownActivatePageHandler = function () {
-    window.backend.loadCardsData(successGetDataHandler, errorGetDataHandler);
+    window.backend.loadCardsData(successGetDataHandler, window.errorMessage.show);
 
     mapElement.classList.remove('map--faded');
-    adFormElement.classList.remove('ad-form--disabled');
+    formElement.classList.remove('ad-form--disabled');
 
     for (i = 0; i < fieldsetElementList.length; i++) {
       fieldsetElementList[i].disabled = false;
@@ -47,7 +43,7 @@
 
   window.inactivatePageHandler = function () {
     mapElement.classList.add('map--faded');
-    adFormElement.classList.add('ad-form--disabled');
+    formElement.classList.add('ad-form--disabled');
 
     mainPinElement.style.top = (mapElement.offsetHeight / 2) + 'px';
     mainPinElement.style.left = (mapElement.offsetWidth / 2 - MAIN_PIN_SIZE / 2) + 'px';
