@@ -3,6 +3,7 @@
 window.backend = (function () {
   var GET_CARDS_DATA_URL = 'https://js.dump.academy/keksobooking/data';
   var SEND_FORM_DATA_URL = 'https://js.dump.academy/keksobooking';
+  var TIMEOUT = 10000;
 
   return {
     loadCardsData: function (onLoad, onError) {
@@ -25,7 +26,7 @@ window.backend = (function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
 
-      xhr.timeout = 10000;
+      xhr.timeout = TIMEOUT;
 
       xhr.open('GET', GET_CARDS_DATA_URL);
       xhr.send();
@@ -51,7 +52,7 @@ window.backend = (function () {
         onError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
       });
 
-      xhr.timeout = 10000;
+      xhr.timeout = TIMEOUT;
 
       xhr.open('POST', SEND_FORM_DATA_URL);
       xhr.send(data);
