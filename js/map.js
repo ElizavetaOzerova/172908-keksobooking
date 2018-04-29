@@ -27,19 +27,7 @@
   };
 
   var errorGetDataHandler = function (errorMessage) {
-    var errorDataElement = document.createElement('div');
-    errorDataElement.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: rgba(255, 0, 0, 0.8); color: #000000;';
-    errorDataElement.style.position = 'fixed';
-    errorDataElement.style.left = 0;
-    errorDataElement.style.right = 0;
-    errorDataElement.style.fontSize = '30px';
-
-    errorDataElement.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', errorDataElement);
-
-    setTimeout(function () {
-      errorDataElement.classList.add('hidden');
-    }, 6000);
+    window.show.errorDataHandler(errorMessage);
   };
 
 
@@ -61,11 +49,9 @@
     mapElement.classList.add('map--faded');
     adFormElement.classList.add('ad-form--disabled');
 
-    // выствляем главной метке изначальные координаты
     mainPinElement.style.top = (mapElement.offsetHeight / 2) + 'px';
     mainPinElement.style.left = (mapElement.offsetWidth / 2 - MAIN_PIN_SIZE / 2) + 'px';
 
-    // удаляем пины
     var pinsList = pinsContainerElement.querySelectorAll('.map__pin');
     pinsList.forEach(function (item) {
       if (!item.classList.contains('map__pin--main')) {
@@ -73,7 +59,6 @@
       }
     });
 
-    // прячем карточку
     if (window.cardElement) {
       window.cardElement.classList.add('hidden');
     }
