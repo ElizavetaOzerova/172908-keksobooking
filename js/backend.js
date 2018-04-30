@@ -4,6 +4,7 @@ window.backend = (function () {
   var GET_CARDS_DATA_URL = 'https://js.dump.academy/keksobooking/data';
   var SEND_FORM_DATA_URL = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
+  var initialData;
 
   var loadData = function (method, url, onLoad, onError, data) {
     var xhr = new XMLHttpRequest();
@@ -11,7 +12,8 @@ window.backend = (function () {
 
     xhr.addEventListener('load', function () {
       if (xhr.status === 200) {
-        onLoad(xhr.response);
+        initialData = xhr.response;
+        onLoad(initialData);
       } else {
         onError('Cтатус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
@@ -38,6 +40,9 @@ window.backend = (function () {
     },
     sendFormData: function (data, onLoad, onError) {
       loadData('POST', SEND_FORM_DATA_URL, onLoad, onError, data);
+    },
+    getСachedData: function () {
+      return initialData.slice();
     }
   };
 
