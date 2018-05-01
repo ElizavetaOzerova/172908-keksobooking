@@ -1,15 +1,15 @@
 'use strict';
 
 (function () {
-  var formElement = document.querySelector('.ad-form');
-  var typeField = document.querySelector('#type');
-  var priceField = document.querySelector('#price');
-  var timeInField = document.querySelector('#timein');
-  var timeOutField = document.querySelector('#timeout');
-  var roomNumberField = document.querySelector('#room_number');
-  var roomCapacityField = document.querySelector('#capacity');
   var successElement = document.querySelector('.success');
-  var formResetBtn = document.querySelector('.ad-form__reset');
+  var formElement = document.querySelector('.ad-form');
+  var typeField = formElement.querySelector('#type');
+  var priceField = formElement.querySelector('#price');
+  var timeInField = formElement.querySelector('#timein');
+  var timeOutField = formElement.querySelector('#timeout');
+  var roomNumberField = formElement.querySelector('#room_number');
+  var roomCapacityField = formElement.querySelector('#capacity');
+  var formResetBtn = formElement.querySelector('.ad-form__reset');
 
 
   typeField.addEventListener('change', function (evt) {

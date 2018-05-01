@@ -1,6 +1,6 @@
 'use strict';
 
-window.errorMessage = (function () {
+(function () {
   var SHOW_ERROR_TIMEOUT = 6000;
 
   var errorDataElement = document.createElement('div');
@@ -17,7 +17,7 @@ window.errorMessage = (function () {
 
   document.body.insertAdjacentElement('afterbegin', errorDataElement);
 
-  return {
+  window.errorMessage = {
     show: function (errorMessage) {
       if (errorDataElement.classList.contains('hidden')) {
         errorDataElement.classList.remove('hidden');
