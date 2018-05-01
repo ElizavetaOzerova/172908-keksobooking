@@ -4,6 +4,7 @@
   var MAIN_PIN_SIZE = 62;
   var MAIN_PIN_LEG_SIZE = 22;
   var PINS_LIMIT = 5;
+  var TOP_RESTRICTION_MAIN_PIN_COORDINATE = 150;
 
   var mapElement = document.querySelector('.map');
   var pinsContainerElement = document.querySelector('.map__pins');
@@ -83,7 +84,7 @@
 
     inputAddressElement.value = mainPinElementX + ', ' + mainPinElementY;
 
-    window.dataFilter.resetFormFieldValues();
+    window.mapFilter.resetFormFieldValues();
   };
 
 
@@ -95,10 +96,8 @@
 
 
   filtersFormElement.addEventListener('change', function () {
-    window.dataFilter.fillFilterValuesObj();
-
     var updatePins = function () {
-      renderPins(window.dataFilter.filterData(cachedData));
+      renderPins(window.mapFilter.filterData(cachedData));
     };
 
     window.debounce(updatePins);
@@ -132,8 +131,8 @@
       };
 
 
-      if (finishCoords.top < 0) {
-        finishCoords.top = 0;
+      if (finishCoords.top < TOP_RESTRICTION_MAIN_PIN_COORDINATE) {
+        finishCoords.top = TOP_RESTRICTION_MAIN_PIN_COORDINATE;
       }
       if (finishCoords.left < 0) {
         finishCoords.left = 0;

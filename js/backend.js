@@ -1,6 +1,6 @@
 'use strict';
 
-window.backend = (function () {
+(function () {
   var GET_CARDS_DATA_URL = 'https://js.dump.academy/keksobooking/data';
   var SEND_FORM_DATA_URL = 'https://js.dump.academy/keksobooking';
   var TIMEOUT = 10000;
@@ -29,10 +29,9 @@ window.backend = (function () {
 
     xhr.open(method, url);
     xhr.send(data);
-
   };
 
-  return {
+  window.backend = {
     loadCardsData: function (onLoad, onError) {
       loadData('GET', GET_CARDS_DATA_URL, onLoad, onError);
     },
@@ -40,5 +39,4 @@ window.backend = (function () {
       loadData('POST', SEND_FORM_DATA_URL, onLoad, onError, data);
     }
   };
-
 })();
