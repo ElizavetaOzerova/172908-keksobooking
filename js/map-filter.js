@@ -51,23 +51,23 @@
     return filters;
   };
 
-  var createItemFilter = function (fieldName, filtersObj, fieldProcessor) {
+  var createItemFilter = function (fieldName, filterCollector, fieldProcessor) {
     return function (item) {
-      if (filtersObj[fieldName] === 'any') {
+      if (filterCollector[fieldName] === 'any') {
         return true;
       }
       var fieldValue = fieldProcessor ? fieldProcessor(item.offer[fieldName]) : item.offer[fieldName];
 
-      return fieldValue === filtersObj[fieldName];
+      return fieldValue === filterCollector[fieldName];
     };
   };
 
-  var createFeaturesFilter = function (filtersObj) {
+  var createFeaturesFilter = function (filterCollector) {
     return function (item) {
-      if (!filtersObj.features.length) {
+      if (!filterCollector.features.length) {
         return true;
       } else {
-        return сheckExistenceInArr(item.offer.features, filtersObj.features);
+        return сheckExistenceInArr(item.offer.features, filterCollector.features);
       }
     };
   };

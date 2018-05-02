@@ -61,33 +61,6 @@
   };
 
 
-  window.mouseDownActivatePageHandler = function () {
-    window.backend.loadCardsData(successGetDataHandler, window.errorMessage.show);
-
-    mapElement.classList.remove('map--faded');
-    formElement.classList.remove('ad-form--disabled');
-
-    for (var i = 0; i < fieldsetElementList.length; i++) {
-      fieldsetElementList[i].disabled = false;
-    }
-
-    inputAddressElement.value = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2) + ', ' + (mainPinElement.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE);
-  };
-
-
-  window.inactivatePageHandler = function () {
-    mapElement.classList.add('map--faded');
-    formElement.classList.add('ad-form--disabled');
-
-    mainPinElement.style.top = (mapElement.offsetHeight / 2) + 'px';
-    mainPinElement.style.left = (mapElement.offsetWidth / 2 - MAIN_PIN_SIZE / 2) + 'px';
-
-    clearMap();
-    setFormDefaultState();
-    window.mapFilter.reset();
-  };
-
-
   setFormDefaultState();
   mapElement.insertBefore(window.cardElement, pinsContainerElement);
 
@@ -99,4 +72,32 @@
 
     window.debounce(updatePins);
   });
+
+
+  window.map = {
+    activate: function () {
+      window.backend.loadCardsData(successGetDataHandler, window.errorMessage.show);
+
+      mapElement.classList.remove('map--faded');
+      formElement.classList.remove('ad-form--disabled');
+
+      for (var i = 0; i < fieldsetElementList.length; i++) {
+        fieldsetElementList[i].disabled = false;
+      }
+
+      inputAddressElement.value = Math.floor(mainPinElement.offsetLeft + MAIN_PIN_SIZE / 2) + ', ' + (mainPinElement.offsetTop + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE);
+    },
+
+    deactivate: function () {
+      mapElement.classList.add('map--faded');
+      formElement.classList.add('ad-form--disabled');
+
+      mainPinElement.style.top = (mapElement.offsetHeight / 2) + 'px';
+      mainPinElement.style.left = (mapElement.offsetWidth / 2 - MAIN_PIN_SIZE / 2) + 'px';
+
+      clearMap();
+      setFormDefaultState();
+      window.mapFilter.reset();
+    },
+  };
 })();
