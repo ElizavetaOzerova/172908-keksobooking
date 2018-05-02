@@ -62,7 +62,6 @@
     document.addEventListener('mousemove', mouseMoveHandler);
     document.addEventListener('mouseup', mouseUpHandler);
 
-    mainPinElement.addEventListener('mouseup', window.map.activate());
+    mainPinElement.addEventListener('mouseup', window.map.activate);
   });
-
 })();
