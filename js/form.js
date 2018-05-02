@@ -73,13 +73,13 @@
     }, 3000);
 
     formElement.reset();
-    window.inactivatePageHandler();
+    window.map.deactivate();
   };
 
 
   formResetBtn.addEventListener('click', function () {
     formElement.reset();
-    window.inactivatePageHandler();
+    window.map.deactivate();
   });
 
 

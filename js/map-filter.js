@@ -31,7 +31,6 @@
     filterSelectElements.forEach(function (selectElement) {
       var filterName = selectElement.id.split('-')[1];
       var filterValue = selectElement.value;
-
       filters[filterName] = filterValue;
     });
 
@@ -43,45 +42,44 @@
     }
 
     filters['features'] = [];
-
-    filterFeatureElements.forEach(function (element) {
-      if (element.checked) {
-        filters['features'].push(element.value);
+    filterFeatureElements.forEach(function (featureElement) {
+      if (featureElement.checked) {
+        filters['features'].push(featureElement.value);
       }
     });
 
     return filters;
   };
 
-  var createItemFilter = function (fieldName, filters, fieldProcessor) {
+  var createItemFilter = function (fieldName, filterCollector, fieldProcessor) {
     return function (item) {
-      if (filters[fieldName] === 'any') {
+      if (filterCollector[fieldName] === 'any') {
         return true;
       }
       var fieldValue = fieldProcessor ? fieldProcessor(item.offer[fieldName]) : item.offer[fieldName];
 
-      return fieldValue === filters[fieldName];
+      return fieldValue === filterCollector[fieldName];
     };
   };
 
-  var createFeaturesFilter = function (filters) {
+  var createFeaturesFilter = function (filterCollector) {
     return function (item) {
-      if (!filters.features.length) {
+      if (!filterCollector.features.length) {
         return true;
       } else {
-        return сheckExistenceInArr(item.offer.features, filters.features);
+        return сheckExistenceInArr(item.offer.features, filterCollector.features);
       }
     };
   };
 
 
   window.mapFilter = {
-    resetFormFieldValues: function () {
+    reset: function () {
       filterSelectElements.forEach(function (selectElement) {
         selectElement.options[0].selected = true;
       });
-      filterFeatureElements.forEach(function (element) {
-        element.checked = false;
+      filterFeatureElements.forEach(function (featureElement) {
+        featureElement.checked = false;
       });
     },
 
