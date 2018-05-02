@@ -31,7 +31,6 @@
     filterSelectElements.forEach(function (selectElement) {
       var filterName = selectElement.id.split('-')[1];
       var filterValue = selectElement.value;
-
       filters[filterName] = filterValue;
     });
 
@@ -43,45 +42,44 @@
     }
 
     filters['features'] = [];
-
-    filterFeatureElements.forEach(function (element) {
-      if (element.checked) {
-        filters['features'].push(element.value);
+    filterFeatureElements.forEach(function (featureElement) {
+      if (featureElement.checked) {
+        filters['features'].push(featureElement.value);
       }
     });
 
     return filters;
   };
 
-  var createItemFilter = function (fieldName, filters, fieldProcessor) {
+  var createItemFilter = function (fieldName, filtersObj, fieldProcessor) {
     return function (item) {
-      if (filters[fieldName] === 'any') {
+      if (filtersObj[fieldName] === 'any') {
         return true;
       }
       var fieldValue = fieldProcessor ? fieldProcessor(item.offer[fieldName]) : item.offer[fieldName];
 
-      return fieldValue === filters[fieldName];
+      return fieldValue === filtersObj[fieldName];
     };
   };
 
-  var createFeaturesFilter = function (filters) {
+  var createFeaturesFilter = function (filtersObj) {
     return function (item) {
-      if (!filters.features.length) {
+      if (!filtersObj.features.length) {
         return true;
       } else {
-        return сheckExistenceInArr(item.offer.features, filters.features);
+        return сheckExistenceInArr(item.offer.features, filtersObj.features);
       }
     };
   };
 
 
   window.mapFilter = {
-    resetFormFieldValues: function () {
+    reset: function () {
       filterSelectElements.forEach(function (selectElement) {
         selectElement.options[0].selected = true;
       });
-      filterFeatureElements.forEach(function (element) {
-        element.checked = false;
+      filterFeatureElements.forEach(function (featureElement) {
+        featureElement.checked = false;
       });
     },
 
