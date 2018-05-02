@@ -3,7 +3,8 @@
 (function () {
   var MAIN_PIN_SIZE = 62;
   var MAIN_PIN_LEG_SIZE = 22;
-  var TOP_RESTRICTION_MAIN_PIN_COORDINATE = 150;
+  var MAIN_PIN_TOP_RESTRICTION = 150;
+  var MAIN_PIN_BOTTOM_RESTRICTION = 500;
 
   var pinsContainerElement = document.querySelector('.map__pins');
   var mainPinElement = document.querySelector('.map__pin--main');
@@ -36,8 +37,8 @@
       };
 
 
-      if (finishCoords.top < TOP_RESTRICTION_MAIN_PIN_COORDINATE) {
-        finishCoords.top = TOP_RESTRICTION_MAIN_PIN_COORDINATE;
+      if (finishCoords.top < MAIN_PIN_TOP_RESTRICTION) {
+        finishCoords.top = MAIN_PIN_TOP_RESTRICTION;
       }
       if (finishCoords.left < 0) {
         finishCoords.left = 0;
@@ -45,8 +46,8 @@
       if (finishCoords.left + MAIN_PIN_SIZE > pinsContainerElement.clientWidth) {
         finishCoords.left = pinsContainerElement.clientWidth - MAIN_PIN_SIZE;
       }
-      if (finishCoords.top + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE > pinsContainerElement.clientHeight) {
-        finishCoords.top = pinsContainerElement.clientHeight - MAIN_PIN_SIZE - MAIN_PIN_LEG_SIZE;
+      if (finishCoords.top + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE > MAIN_PIN_BOTTOM_RESTRICTION) {
+        finishCoords.top = MAIN_PIN_BOTTOM_RESTRICTION - MAIN_PIN_SIZE - MAIN_PIN_LEG_SIZE;
       }
 
       mainPinElement.style.top = finishCoords.top + 'px';

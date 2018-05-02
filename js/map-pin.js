@@ -4,7 +4,7 @@
   var PIN_SIZE = 40;
   var ENTER_KEYCODE = 13;
 
-  window.createPinElement = function (data) {
+  window.createPinElement = function (cardElement, data) {
     var buttonElement = document.createElement('button');
     var imageElement = document.createElement('img');
 
@@ -20,7 +20,7 @@
     buttonElement.appendChild(imageElement);
 
     var fillCard = function () {
-      window.fillCardElement(data);
+      window.mapCard.renderElement(cardElement, data);
     };
 
     buttonElement.addEventListener('click', fillCard);

@@ -6,7 +6,7 @@
   var PINS_LIMIT = 5;
 
   var mapElement = document.querySelector('.map');
-  var pinsContainerElement = document.querySelector('.map__pins');
+  var pinsContainerElement = mapElement.querySelector('.map__pins');
   var fieldsetElementList = document.querySelectorAll('fieldset');
   var inputAddressElement = document.querySelector('#address');
   var formElement = document.querySelector('.ad-form');
@@ -17,8 +17,8 @@
   var cachedData;
 
   var clearMap = function () {
-    if (window.cardElement) {
-      window.cardElement.classList.add('hidden');
+    if (cardElement) {
+      cardElement.classList.add('hidden');
     }
 
     var pinsList = pinsContainerElement.querySelectorAll('.map__pin');
@@ -53,7 +53,7 @@
 
     for (var i = 0; i < visibleDataArr.length; i++) {
       pinsFragment.appendChild(
-          window.createPinElement(visibleDataArr[i])
+          window.createPinElement(cardElement, visibleDataArr[i])
       );
     }
 
@@ -62,7 +62,10 @@
 
 
   setFormDefaultState();
-  mapElement.insertBefore(window.cardElement, pinsContainerElement);
+
+  var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
+  var cardElement = window.mapCard.createElement(cardTemplate);
+  mapElement.insertBefore(cardElement, pinsContainerElement);
 
 
   filtersFormElement.addEventListener('change', function () {
