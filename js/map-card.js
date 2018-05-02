@@ -4,6 +4,9 @@
   var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
+  var mapElement = document.querySelector('.map');
+  var pinsContainerElement = mapElement.querySelector('.map__pins');
+
   var tranformOfferType = function (offerType) {
     switch (offerType) {
       case 'palace':
@@ -70,10 +73,10 @@
   window.fillCardElement = function (data) {
     var offer = data.offer;
 
-    var photosElement = window.cardElement.querySelector('.popup__photos');
-    var featuresListElement = window.cardElement.querySelector('.popup__features');
+    var photosElement = cardElement.querySelector('.popup__photos');
+    var featuresListElement = cardElement.querySelector('.popup__features');
 
-    window.cardElement.querySelector('.popup__avatar').src = data.author.avatar;
+    cardElement.querySelector('.popup__avatar').src = data.author.avatar;
 
     var textContentCard = {
       '.popup__title': offer.title,
@@ -87,7 +90,7 @@
 
     for (var selector in textContentCard) {
       if (textContentCard.hasOwnProperty(selector)) {
-        window.cardElement.querySelector(selector).textContent = textContentCard[selector];
+        cardElement.querySelector(selector).textContent = textContentCard[selector];
       }
     }
 
@@ -102,9 +105,10 @@
       photosElement.appendChild(createPhotoElement(offer.photos[i]));
     }
 
-    window.cardElement.classList.remove('hidden');
+    cardElement.classList.remove('hidden');
   };
 
   var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
-  window.cardElement = createCardElement(cardTemplate);
+  var cardElement = createCardElement(cardTemplate);
+  mapElement.insertBefore(cardElement, pinsContainerElement);
 })();
