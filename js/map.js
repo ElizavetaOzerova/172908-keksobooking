@@ -17,8 +17,6 @@
   var cachedData;
 
   var clearMap = function () {
-    var cardElement = document.querySelector('.map__card');
-
     if (cardElement) {
       cardElement.classList.add('hidden');
     }
@@ -55,7 +53,7 @@
 
     for (var i = 0; i < visibleDataArr.length; i++) {
       pinsFragment.appendChild(
-          window.createPinElement(visibleDataArr[i])
+          window.createPinElement(cardElement, visibleDataArr[i])
       );
     }
 
@@ -64,6 +62,11 @@
 
 
   setFormDefaultState();
+
+  var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
+  var cardElement = window.mapCard.createElement(cardTemplate);
+  mapElement.insertBefore(cardElement, pinsContainerElement);
+
 
   filtersFormElement.addEventListener('change', function () {
     var updatePins = function () {
