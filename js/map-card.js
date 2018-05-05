@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEYCODE = 27;
   var ENTER_KEYCODE = 13;
 
   var tranformOfferType = function (offerType) {
@@ -46,25 +45,16 @@
       var cardItemElement = cardTemplate.cloneNode(true);
       var btnCloseItemElement = cardItemElement.querySelector('.popup__close');
 
-      var hideCardItemElement = function () {
-        cardItemElement.classList.add('hidden');
-      };
+      cardItemElement.classList.add('hidden');
 
-      hideCardItemElement();
-
-      document.addEventListener('keydown', function (evt) {
-        if (evt.keyCode === ESC_KEYCODE) {
-          hideCardItemElement();
-        }
-      });
       btnCloseItemElement.addEventListener('keydown', function (evt) {
         if (evt.keyCode === ENTER_KEYCODE) {
-          hideCardItemElement();
+          cardItemElement.classList.add('hidden');
         }
       });
-
-      btnCloseItemElement.addEventListener('click', hideCardItemElement);
-
+      btnCloseItemElement.addEventListener('click', function () {
+        cardItemElement.classList.add('hidden');
+      });
 
       return cardItemElement;
     },
