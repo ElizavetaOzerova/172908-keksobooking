@@ -1,8 +1,8 @@
 'use strict';
 
 (function () {
-  var PHOTO_WIDTH = '45';
-  var PHOTO_HEIGHT = '40';
+  var PHOTO_WIDTH = 45;
+  var PHOTO_HEIGHT = 40;
   var ENTER_KEYCODE = 13;
 
   var tranformOfferType = function (offerType) {
