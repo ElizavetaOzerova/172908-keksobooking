@@ -1,6 +1,8 @@
 'use strict';
 
 (function () {
+  var PHOTO_WIDTH = '45';
+  var PHOTO_HEIGHT = '40';
   var ENTER_KEYCODE = 13;
 
   var tranformOfferType = function (offerType) {
@@ -31,8 +33,8 @@
     var photoElement = document.createElement('img');
 
     photoElement.classList.add('popup__photo');
-    photoElement.width = '45';
-    photoElement.height = '40';
+    photoElement.width = PHOTO_WIDTH;
+    photoElement.height = PHOTO_HEIGHT;
     photoElement.alt = 'Фотография жилья';
     photoElement.src = photoData;
 
