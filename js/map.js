@@ -4,6 +4,7 @@
   var MAIN_PIN_SIZE = 62;
   var MAIN_PIN_LEG_SIZE = 22;
   var PINS_LIMIT = 5;
+  var ESC_KEYCODE = 27;
 
   var mapElement = document.querySelector('.map');
   var pinsContainerElement = mapElement.querySelector('.map__pins');
@@ -66,6 +67,13 @@
   var cardTemplate = document.querySelector('template').content.querySelector('.map__card');
   var cardElement = window.mapCard.createElement(cardTemplate);
   mapElement.insertBefore(cardElement, pinsContainerElement);
+
+
+  document.addEventListener('keydown', function (evt) {
+    if (evt.keyCode === ESC_KEYCODE) {
+      cardElement.classList.add('hidden');
+    }
+  });
 
 
   filtersFormElement.addEventListener('change', function () {
