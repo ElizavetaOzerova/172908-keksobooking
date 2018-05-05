@@ -1,19 +1,25 @@
 'use strict';
 
 (function () {
+  var AVERAGE_PRICE_UPPER_LIMIT = 50000;
+  var AVERAGE_PRICE_LOWER_LIMIT = 10000;
+  var HIGH_PRICE_CATEGORY = 'high';
+  var MIDDLE_PRICE_CATEGORY = 'middle';
+  var LOW_PRICE_CATEGORY = 'low';
+
   var filtersFormElement = document.querySelector('.map__filters');
   var filterSelectElements = filtersFormElement.querySelectorAll('select');
   var filterFeatureElements = filtersFormElement.querySelectorAll('input');
 
   var extractCategoryFromPrice = function (price) {
-    if (price > 50000) {
-      return 'high';
+    if (price > AVERAGE_PRICE_UPPER_LIMIT) {
+      return HIGH_PRICE_CATEGORY;
     }
-    if (price >= 10000) {
-      return 'middle';
+    if (price >= AVERAGE_PRICE_LOWER_LIMIT) {
+      return MIDDLE_PRICE_CATEGORY;
     }
 
-    return 'low';
+    return LOW_PRICE_CATEGORY;
   };
 
   var сheckExistenceInArr = function (сheckArr, containItems) {
