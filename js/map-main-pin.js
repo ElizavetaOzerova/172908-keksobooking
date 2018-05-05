@@ -37,16 +37,19 @@
       };
 
 
+      var rightMovementRestriction = finishCoords.left + MAIN_PIN_SIZE;
+      var bottomMovementRestriction = finishCoords.top + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE;
+
       if (finishCoords.top < MAIN_PIN_TOP_RESTRICTION) {
         finishCoords.top = MAIN_PIN_TOP_RESTRICTION;
       }
       if (finishCoords.left < 0) {
         finishCoords.left = 0;
       }
-      if (finishCoords.left + MAIN_PIN_SIZE > pinsContainerElement.clientWidth) {
+      if (rightMovementRestriction > pinsContainerElement.clientWidth) {
         finishCoords.left = pinsContainerElement.clientWidth - MAIN_PIN_SIZE;
       }
-      if (finishCoords.top + MAIN_PIN_SIZE + MAIN_PIN_LEG_SIZE > MAIN_PIN_BOTTOM_RESTRICTION) {
+      if (bottomMovementRestriction > MAIN_PIN_BOTTOM_RESTRICTION) {
         finishCoords.top = MAIN_PIN_BOTTOM_RESTRICTION - MAIN_PIN_SIZE - MAIN_PIN_LEG_SIZE;
       }
 
