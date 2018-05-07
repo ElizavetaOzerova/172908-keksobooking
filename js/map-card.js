@@ -4,6 +4,7 @@
   var PHOTO_WIDTH = 45;
   var PHOTO_HEIGHT = 40;
   var ENTER_KEYCODE = 13;
+  var PHOTO_ELEMENT_ALT = 'Фотография жилья';
 
   var tranformOfferType = function (offerType) {
     switch (offerType) {
@@ -35,7 +36,7 @@
     photoElement.classList.add('popup__photo');
     photoElement.width = PHOTO_WIDTH;
     photoElement.height = PHOTO_HEIGHT;
-    photoElement.alt = 'Фотография жилья';
+    photoElement.alt = PHOTO_ELEMENT_ALT;
     photoElement.src = photoData;
 
     return photoElement;
